@@ -8,36 +8,25 @@ export default function SignIn() {
     const [password,setPassword] = useState("");
     const [reapeatPassword , setReapeatPassword] = useState("");
     const [mail,setMail] = useState("");
-    const [usersList,setUsersList] = useState([]);
+   
 
     const navigate = useNavigate();
 
-    useEffect(()=>{
-        login().then(res=>setUsersList(res)).catch(err=>console.log(err));
-    },[])
-
+   
     const submit = ()=>{
         //send to the backend and verify
         if (password===reapeatPassword) {
-            const user = usersList.find(user=>{
-                return user.name===username;
-            })
-            if (user) {
-                setUsername("");
-                alert("אנא בחרי שם משתמש אחר")
-                
-            } else {
-                const newUser = {
-                    name:username,
-                    password:password,
-                    mail:mail
+            addNewUser({name:username,password:password,mail:mail}).then(
+                res=>{
+                    if(res.id){
+                        localStorage.setItem("id",`${res.id}`);
+                        navigate("/courses")
+                    }else{
+                        setUsername("");
+                        alert("אנא בחרי שם משתמש אחר");
+                    }
                 }
-                addNewUser(newUser).then(res=>{
-                    localStorage.setItem("id",`${res.id}`);
-                    navigate("/courses")
-                })
-                
-            }
+            )
             
         } else {
             alert("הסיסמאות אינן תואמות");

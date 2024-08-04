@@ -8,3 +8,7 @@ export async function getAllCourses(){
 export async function getCourseById(id){
     return (await axios.get(`${PATH}/course/getCourse/${id}`)).data;
 }
+
+export async function deleteCourseById(id){
+    await axios.delete(`${PATH}/course/deleteCourse/${id}`);
+}

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import { getCourseById } from "../../api/coursesController/courses";
-import { Stack, Typography } from "@mui/material";
+import { useLocation, useNavigate } from "react-router-dom";
+import { deleteCourseById, getCourseById } from "../../api/coursesController/courses";
+import { Button, Stack, Typography } from "@mui/material";
 
 /**
  * 
@@ -29,7 +29,7 @@ import { Stack, Typography } from "@mui/material";
 export default function CourseInfoPage() {
     const [courseInfo,setCourseInfo] = useState();
 
-    
+    const navigate = useNavigate();
 
     const location = useLocation();
     const {id} = location.state || {};
@@ -59,6 +59,14 @@ export default function CourseInfoPage() {
                 <img height={"350px"}  src="https://images.pexels.com/photos/2770371/pexels-photo-2770371.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"/>
             </Stack>
          </Stack>
+         {
+            localStorage.getItem("admin")&&
+            <Button sx={{margin:"auto"}} variant="contained" onClick={()=>{
+                deleteCourseById(courseInfo.id);
+                navigate("/courses");
+                
+            }}>delete course</Button>
+         }
 
     </Stack>
         )

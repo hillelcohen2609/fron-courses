@@ -1,38 +1,32 @@
 import { Button, Stack, TextField, Typography } from '@mui/material'
 import  { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
-import { login } from '../../api/logInController/login';
+import { login } from '../../api/logInController/loginController';
 
 export default function Login() {
     const [username,setUsername] = useState("");
     const [password,setPassword] = useState("");
-    const [usersList , setUsersList] = useState([]);
+    
 
     const navigate = useNavigate();
 
-    useEffect(()=>{
-        login().then(res=>{
-            setUsersList(res)
-        }).catch(err=>console.log(err));
-    },[])
-
-    console.log(usersList);
-
+    
     const submit = ()=>{
-        const user = usersList.find(user=>{
-            return user.name===username&&user.password===password
-        })
-        if (user) {
-            if(username==="admin"&&password==="1234"){
-                localStorage.setItem("admin","true");
+         login({name:username,password:password,mail:"dfdfdsf"}).then(res=>{
+            console.log(res);
+            if (res.id) {
+                if(res.name==="admin"&&res.password==="1234"){
+                    localStorage.setItem("admin","true");
+                }
+                localStorage.setItem("id",`${res.id}`);
+                navigate("/courses");
+            } else {
+                setPassword("");
+                alert("שם משתמש או סיסמא שגויים");
+                
             }
-            localStorage.setItem("id",`${user.id}`);
-            navigate("/courses");
-        } else {
-            setPassword("");
-            alert("שם משתמש או סיסמא שגויים");
-            
-        }
+        })
+        
     }
 
   return (
