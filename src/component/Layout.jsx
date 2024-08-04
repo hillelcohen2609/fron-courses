@@ -12,7 +12,7 @@ import {
   export default function Layout() {
     const logout = ()=>{
         localStorage.clear();
-        navigate("/dfhsdf")
+        navigate("/")
     }
     const navigate = useNavigate();
     return (

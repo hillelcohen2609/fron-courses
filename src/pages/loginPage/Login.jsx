@@ -10,7 +10,7 @@ export default function Login() {
 
     const navigate = useNavigate();
 
-    
+
     const submit = ()=>{
          login({name:username,password:password,mail:"dfdfdsf"}).then(res=>{
             console.log(res);
@@ -19,7 +19,8 @@ export default function Login() {
                     localStorage.setItem("admin","true");
                 }
                 localStorage.setItem("id",`${res.id}`);
-                navigate("/courses");
+                setTimeout(()=>navigate("/courses"),500)
+                
             } else {
                 setPassword("");
                 alert("שם משתמש או סיסמא שגויים");
